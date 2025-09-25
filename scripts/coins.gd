@@ -2,7 +2,11 @@ extends Node
 
 
 func _on_body_entered(body):
-	pass
+	if body.name == "Player":
+		print("coin")
+	queue_free()
+	
+	
 	# TODO: Check if the object that touched the coin is the player
 	
 	
@@ -12,5 +16,6 @@ func _on_body_entered(body):
 	
 	
 	# TODO: Remove the coin from the game
+	
 	
 	
