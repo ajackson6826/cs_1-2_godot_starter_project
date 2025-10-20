@@ -34,7 +34,7 @@ func _physics_process(_delta):
 	if current_enemy != null and is_attacking and in_range:
 		current_enemy.queue_free()
 		
-	elif is_attacking:
+	if is_attacking:
 		attack_timer -= _delta
 		if attack_timer < 0:
 			is_attacking = false
