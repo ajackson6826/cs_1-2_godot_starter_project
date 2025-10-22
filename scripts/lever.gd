@@ -2,7 +2,7 @@ extends Area2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 var is_on = false
 var in_range = false
-
+var player
 
 func update_animation():
 	animated_sprite_2d.play("off")

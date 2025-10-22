@@ -863,6 +863,7 @@ animations = [{
 radius = 12.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
+size = Vector2(28, 28)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_hf8rj")

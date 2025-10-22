@@ -2,6 +2,7 @@ extends CharacterBody2D
 @onready var _animation_player: AnimatedSprite2D = $AnimatedSprite2D
 var projectile_original = preload("res://scenes/projectile.tscn")
 
+var player
 var current_enemy = null
 var in_range = false
 var is_attacking = false
@@ -15,10 +16,9 @@ var coins = 0
 @export var offset : Vector2 = Vector2(0, -25)
 @onready var melee: Area2D = $Melee
 @onready var melee_hitbox: CollisionShape2D = $Melee/Melee_hitbox
-
-
-
-
+var lever1 = false
+var lever2 = false
+var lever3 = false
 
 # TODO: Add health system variables
 var maxHealth = 10
@@ -27,7 +27,7 @@ var health = maxHealth
 func _ready() -> void:
 	pass
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	if Input.is_action_pressed("ui_accept"):
 		is_attacking = true
 		print("attacked")
@@ -35,12 +35,11 @@ func _physics_process(_delta):
 		current_enemy.queue_free()
 		
 	if is_attacking:
-		attack_timer -= _delta
-		if attack_timer < 0:
-			is_attacking = false
-			attack_timer = 0.67
-			print("timer over")
-	
+		attack_timer -= delta
+	if attack_timer < 0:
+		is_attacking = false
+		attack_timer = 0.67
+		print("timer over")
 	xDirection = Input.get_axis("ui_left", "ui_right")
 	
 	
@@ -132,7 +131,11 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		in_range = true
 		current_enemy = body
 		print("near enemy")
-	pass # Replace with function body.
+	print(body.name)
+	if body.name == "lever":
+		body.lever = true
+		print("lever1 is true")
+	pass 
 
 
 func _on_melee_body_exited(body: Node2D) -> void:
