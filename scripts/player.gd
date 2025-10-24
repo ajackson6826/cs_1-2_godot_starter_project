@@ -1,7 +1,6 @@
 extends CharacterBody2D
 @onready var _animation_player: AnimatedSprite2D = $AnimatedSprite2D
 var projectile_original = preload("res://scenes/projectile.tscn")
-
 var player
 var current_enemy = null
 var in_range = false
@@ -16,11 +15,10 @@ var coins = 0
 @export var offset : Vector2 = Vector2(0, -25)
 @onready var melee: Area2D = $Melee
 @onready var melee_hitbox: CollisionShape2D = $Melee/Melee_hitbox
-var lever1 = false
+var lever = false
 var lever2 = false
 var lever3 = false
 
-# TODO: Add health system variables
 var maxHealth = 10
 var health = maxHealth
 
@@ -31,20 +29,20 @@ func _physics_process(delta):
 	if Input.is_action_pressed("ui_accept"):
 		is_attacking = true
 		print("attacked")
-	if current_enemy != null and is_attacking and in_range:
-		current_enemy.queue_free()
 		
 	if is_attacking:
 		attack_timer -= delta
-	if attack_timer < 0:
-		is_attacking = false
-		attack_timer = 0.67
-		print("timer over")
+		if attack_timer < 0:
+			is_attacking = false
+			attack_timer = 0.67
+			print("timer over")
 	xDirection = Input.get_axis("ui_left", "ui_right")
 	
 	
 	yDirection = Input.get_axis("ui_up", "ui_down")
 	
+	if lever and !lever2 and lever3:
+		print("true")
 	
 	velocity.x = xDirection * xSpeed
 	velocity.y = yDirection * ySpeed
@@ -67,17 +65,14 @@ func _physics_process(delta):
 		shoot()
 		update_animation()
 	 
-	# call the animation function
 	update_animation()
 	
 	
-	# This is a special Godot function that makes the movement happen
 	move_and_slide()
 
 			
 		
 
-# TODO: Create animation function (add this outside of _physics_process)
 func update_animation():
 	if is_attacking:
 		_animation_player.play("attack_" + facing)
@@ -93,7 +88,6 @@ func update_animation():
 	
 
 
-# TODO: Create health change function for interactions
 func change_health(_amount:int):
 		health += _amount
 		if health < 1:
@@ -107,20 +101,16 @@ func change_coins(_amount:int):
 	print("you have " +str(coins) +" coins")
 
 func die():
+	preload("res://scenes/game_over.tscn")
 	print("you died")
 	
-# TODO: Create shooting function
 func shoot():
-	# TODO: Create a new projectile instance
 	var projectile_clone = projectile_original.instantiate()
 	
-	# TODO: Set projectile position to player position
 	projectile_clone.global_position = position + offset
 	
-	# TODO: Set projectile direction using facing variable
 	projectile_clone.set_direction(facing)
 	
-	# TODO: Add projectile to the game world
 	get_tree().get_root().add_child(projectile_clone)
 
 	pass
@@ -131,10 +121,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		in_range = true
 		current_enemy = body
 		print("near enemy")
-	print(body.name)
-	if body.name == "lever":
-		body.lever = true
-		print("lever1 is true")
 	pass 
 
 
@@ -142,3 +128,7 @@ func _on_melee_body_exited(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		in_range = false
 		current_enemy = null
+
+func _process(delta: float) -> void:
+	if current_enemy != null and is_attacking and in_range:
+		current_enemy.queue_free()

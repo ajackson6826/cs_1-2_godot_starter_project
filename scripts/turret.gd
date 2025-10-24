@@ -26,7 +26,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		print("player in range")
 		Player = body
 		in_range = true
- # Replace with function body.
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
