@@ -42,7 +42,7 @@ func _physics_process(delta):
 	yDirection = Input.get_axis("ui_up", "ui_down")
 	
 	if lever and !lever2 and lever3:
-		print("true")
+		print("You win!")
 	
 	velocity.x = xDirection * xSpeed
 	velocity.y = yDirection * ySpeed
@@ -103,7 +103,7 @@ func change_coins(_amount:int):
 func die():
 	preload("res://scenes/game_over.tscn")
 	print("you died")
-	
+	queue_free()
 func shoot():
 	var projectile_clone = projectile_original.instantiate()
 	
