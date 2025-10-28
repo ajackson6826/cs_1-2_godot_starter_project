@@ -1,11 +1,13 @@
 extends CharacterBody2D
 @onready var _animation_player: AnimatedSprite2D = $AnimatedSprite2D
 var projectile_original = preload("res://scenes/projectile.tscn")
+var you_died = preload("res://scenes/game_over.tscn")
 var player
 var current_enemy = null
 var in_range = false
 var is_attacking = false
-var attack_timer = 0.67
+var max_timer = 0.67
+var attack_timer = max_timer
 var xSpeed = 300.0
 var xDirection = 0
 var facing = "down"
@@ -18,6 +20,7 @@ var coins = 0
 var lever = false
 var lever2 = false
 var lever3 = false
+var lever4 = false
 
 var maxHealth = 10
 var health = maxHealth
@@ -28,20 +31,20 @@ func _ready() -> void:
 func _physics_process(delta):
 	if Input.is_action_pressed("ui_accept"):
 		is_attacking = true
-		print("attacked")
-		
 	if is_attacking:
 		attack_timer -= delta
 		if attack_timer < 0:
 			is_attacking = false
-			attack_timer = 0.67
+			attack_timer = max_timer
 			print("timer over")
+			print("attacked")
+
 	xDirection = Input.get_axis("ui_left", "ui_right")
 	
 	
 	yDirection = Input.get_axis("ui_up", "ui_down")
 	
-	if lever and !lever2 and lever3:
+	if !lever and lever2 and lever3 and !lever4:
 		print("You win!")
 	
 	velocity.x = xDirection * xSpeed
@@ -63,7 +66,7 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("ui_select"):
 		shoot()
-		update_animation()
+		print("shoot")
 	 
 	update_animation()
 	
@@ -101,9 +104,8 @@ func change_coins(_amount:int):
 	print("you have " +str(coins) +" coins")
 
 func die():
-	preload("res://scenes/game_over.tscn")
-	print("you died")
-	queue_free()
+	get_tree().reload_current_scene()
+	print("you died!")
 func shoot():
 	var projectile_clone = projectile_original.instantiate()
 	
@@ -129,6 +131,6 @@ func _on_melee_body_exited(body: Node2D) -> void:
 		in_range = false
 		current_enemy = null
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if current_enemy != null and is_attacking and in_range:
 		current_enemy.queue_free()
