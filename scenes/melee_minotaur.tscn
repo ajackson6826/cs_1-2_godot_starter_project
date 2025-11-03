@@ -1,6 +1,7 @@
-[gd_scene load_steps=129 format=3 uid="uid://ddq1bkyn8j1by"]
+[gd_scene load_steps=133 format=3 uid="uid://ddq1bkyn8j1by"]
 
 [ext_resource type="Texture2D" uid="uid://busa5myjbwb4i" path="res://sprites/Download38899.png" id="1_nohjn"]
+[ext_resource type="Script" uid="uid://4vaiyqbx80xg" path="res://scripts/melee_minotaur.gd" id="1_vltjp"]
 [ext_resource type="Texture2D" uid="uid://dqoamfql4kdnq" path="res://sprites/Download19204.png" id="2_7o3s3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dgyv5"]
@@ -1001,7 +1002,17 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xl86w"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_adppo"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uk8e4"]
+radius = 88.814415
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yppwt"]
+radius = 178.0028
+
 [node name="MeleeMinotaur" type="CharacterBody2D" groups=["Enemy"]]
+script = ExtResource("1_vltjp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xx5td")
@@ -1014,3 +1025,25 @@ frame_progress = 0.985295
 position = Vector2(0, 9.5)
 scale = Vector2(1.0200008, 1.0200013)
 shape = SubResource("CircleShape2D_xl86w")
+
+[node name="Melee" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Melee"]
+shape = SubResource("CircleShape2D_adppo")
+
+[node name="Chase" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chase"]
+shape = SubResource("CircleShape2D_uk8e4")
+
+[node name="Range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
+shape = SubResource("CircleShape2D_yppwt")
+
+[connection signal="body_entered" from="Melee" to="." method="_on_melee_body_entered"]
+[connection signal="body_exited" from="Melee" to="." method="_on_melee_body_exited"]
+[connection signal="body_entered" from="Chase" to="." method="_on_chase_body_entered"]
+[connection signal="body_exited" from="Chase" to="." method="_on_chase_body_exited"]
+[connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
+[connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]
