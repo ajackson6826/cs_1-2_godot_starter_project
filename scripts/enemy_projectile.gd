@@ -14,3 +14,4 @@ func _physics_process(_delta):
 	position += direction * speed * _delta
 func set_direction(Player):
 	direction = position.direction_to(Player)
+	

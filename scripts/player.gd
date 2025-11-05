@@ -6,8 +6,7 @@ var player
 var current_enemy = null
 var in_range = false
 var is_attacking = false
-var max_timer = 0.67
-var attack_timer = max_timer
+var attack_timer = 0.67
 var xSpeed = 300.0
 var xDirection = 0
 var facing = "down"
@@ -35,7 +34,7 @@ func _physics_process(delta):
 		attack_timer -= delta
 		if attack_timer < 0:
 			is_attacking = false
-			attack_timer = max_timer
+			attack_timer = 0.67
 			print("timer over")
 			print("attacked")
 

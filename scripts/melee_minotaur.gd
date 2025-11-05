@@ -4,6 +4,7 @@ var projectile_original = preload("res://scenes/arrow.tscn")
 var in_range = false
 var chasing = false
 var attacking = false
+var timer = 1
 @onready var player: CharacterBody2D = %Player
 
 func _ready() -> void:
@@ -11,7 +12,10 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if in_range:
+		timer -= delta
+	if timer < 0:
 		shoot()
+		timer = 1
 		print("in range")
 	if chasing:
 		print("chasing")
@@ -64,4 +68,11 @@ func _on_range_body_exited(body: Node2D) -> void:
 		pass # Replace with function body.
 
 func shoot():
-	pass
+	
+	var projectile_clone = projectile_original.instantiate()
+	
+	projectile_clone.global_position = position
+	
+	projectile_clone.set_direction(player.position)
+	
+	get_tree().get_root().add_child(projectile_clone)
