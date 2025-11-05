@@ -11,6 +11,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if in_range:
+		shoot()
 		print("in range")
 	if chasing:
 		print("chasing")
@@ -61,3 +62,6 @@ func _on_range_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		in_range = false
 		pass # Replace with function body.
+
+func shoot():
+	pass
