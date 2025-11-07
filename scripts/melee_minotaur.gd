@@ -5,23 +5,47 @@ var in_range = false
 var chasing = false
 var attacking = false
 var timer = 1
+var melee_timer = 1
+var direction
+var speed = 225
+var facing = "down"
 @onready var player: CharacterBody2D = %Player
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 
 func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
+	if player.position.x < position.x -10:
+		facing = "left"
+	elif player.position.x > position.x +10:
+		facing = "right"
+	elif player.position.y < position.y:
+		facing = "up"
+	elif player.position.y > position.y:
+		facing = "down"
 	if in_range:
+		sprite.play("crossbow_shoot_" + facing)
 		timer -= delta
 	if timer < 0:
 		shoot()
 		timer = 1
 		print("in range")
-	if chasing:
+	if chasing and !attacking:
+		sprite.play("walk_" + facing)
+		direction = (player.global_position - global_position).normalized()
+		velocity = direction * speed
+		move_and_slide()
 		print("chasing")
-	if attacking:
-		print("attacking")
-	pass
+	if chasing and attacking:
+		sprite.play("attack_" + facing)
+		melee_timer -= delta
+	if melee_timer < 0:
+		player.change_health(-2)
+		melee_timer = 1
+	if !in_range and !chasing and !attacking:
+		sprite.play("idle_" + facing)
 
 
 func _on_melee_body_entered(body: Node2D) -> void:

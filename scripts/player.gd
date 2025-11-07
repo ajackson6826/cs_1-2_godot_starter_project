@@ -103,7 +103,8 @@ func change_coins(_amount:int):
 	print("you have " +str(coins) +" coins")
 
 func die():
-	get_tree().reload_current_scene()
+	you_died.instantiate()
+	#get_tree().reload_current_scene()
 	print("you died!")
 func shoot():
 	var projectile_clone = projectile_original.instantiate()
