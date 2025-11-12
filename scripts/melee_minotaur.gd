@@ -17,14 +17,16 @@ func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
-	if player.position.x < position.x -10:
-		facing = "left"
-	elif player.position.x > position.x +10:
-		facing = "right"
-	elif player.position.y < position.y:
-		facing = "up"
-	elif player.position.y > position.y:
-		facing = "down"
+	if abs(position.x - player.position.x) > abs(position.y - player.position.y):
+		if position.x > player.position.x:
+			facing = "left"
+		else:
+			facing = "right"
+	else:
+		if position.y > player.position.y:
+			facing = "up"
+		else:
+			facing = "down"
 	if in_range:
 		sprite.play("crossbow_shoot_" + facing)
 		timer -= delta
@@ -37,7 +39,6 @@ func _process(delta: float) -> void:
 		direction = (player.global_position - global_position).normalized()
 		velocity = direction * speed
 		move_and_slide()
-		print("chasing")
 	if chasing and attacking:
 		sprite.play("attack_" + facing)
 		melee_timer -= delta

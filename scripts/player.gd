@@ -2,6 +2,7 @@ extends CharacterBody2D
 @onready var _animation_player: AnimatedSprite2D = $AnimatedSprite2D
 var projectile_original = preload("res://scenes/projectile.tscn")
 var you_died = preload("res://scenes/game_over.tscn")
+
 var player
 var current_enemy = null
 var in_range = false
@@ -103,7 +104,7 @@ func change_coins(_amount:int):
 	print("you have " +str(coins) +" coins")
 
 func die():
-	you_died.instantiate()
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
 	#get_tree().reload_current_scene()
 	print("you died!")
 func shoot():
