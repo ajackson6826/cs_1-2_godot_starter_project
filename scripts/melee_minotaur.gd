@@ -43,7 +43,7 @@ func _process(delta: float) -> void:
 		sprite.play("attack_" + facing)
 		melee_timer -= delta
 	if melee_timer < 0:
-		player.change_health(-2)
+		player.change_health(-3)
 		melee_timer = 1
 	if !in_range and !chasing and !attacking:
 		sprite.play("idle_" + facing)
