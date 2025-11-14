@@ -4,12 +4,17 @@ var projectile_original = preload("res://scenes/arrow.tscn")
 var in_range = false
 var chasing = false
 var attacking = false
-var timer = 1
+var timer = 0.67
 var melee_timer = 1
 var direction
 var speed = 225
 var facing = "down"
+var maxHealth = 10
+var health = maxHealth
 @onready var player: CharacterBody2D = %Player
+
+
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 
@@ -32,7 +37,7 @@ func _process(delta: float) -> void:
 		timer -= delta
 	if timer < 0:
 		shoot()
-		timer = 1
+		timer = 0.67
 		print("in range")
 	if chasing and !attacking:
 		sprite.play("walk_" + facing)
@@ -101,3 +106,12 @@ func shoot():
 	projectile_clone.set_direction(player.position)
 	
 	get_tree().get_root().add_child(projectile_clone)
+
+
+func change_health(_amount:int):
+		health += _amount
+		if health < 1:
+			queue_free()
+		if health > maxHealth:
+			health = maxHealth
+		print("Enemy Health: ", health)

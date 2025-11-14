@@ -17,6 +17,8 @@ var coins = 0
 @export var offset : Vector2 = Vector2(0, -25)
 @onready var melee: Area2D = $Melee
 @onready var melee_hitbox: CollisionShape2D = $Melee/Melee_hitbox
+@onready var minotaur: CharacterBody2D = $"."
+
 var lever = false
 var lever2 = false
 var lever3 = false
@@ -133,5 +135,5 @@ func _on_melee_body_exited(body: Node2D) -> void:
 		current_enemy = null
 
 func _process(_delta: float) -> void:
-	if current_enemy != null and is_attacking and in_range:
-		current_enemy.queue_free()
+	if current_enemy != null and is_attacking and in_range and attack_timer < 0:
+			current_enemy.change_health(-2)

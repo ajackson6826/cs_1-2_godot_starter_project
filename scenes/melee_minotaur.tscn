@@ -641,7 +641,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"crossbow_shoot_down",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -670,7 +670,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"crossbow_shoot_left",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -699,7 +699,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"crossbow_shoot_right",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -728,7 +728,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"crossbow_shoot_up",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -910,7 +910,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_down",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -939,7 +939,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_left",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -968,7 +968,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_right",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -997,7 +997,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_up",
-"speed": 5.0
+"speed": 12.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xl86w"]
@@ -1006,20 +1006,18 @@ animations = [{
 radius = 32.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uk8e4"]
-radius = 88.814415
+radius = 104.172935
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yppwt"]
-radius = 178.0028
+radius = 188.02394
 
 [node name="MeleeMinotaur" type="CharacterBody2D" groups=["Enemy"]]
 script = ExtResource("1_vltjp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xx5td")
-animation = &"crossbow_shoot_right"
+animation = &"walk_up"
 autoplay = "crossbow_shoot_right"
-frame = 7
-frame_progress = 0.985295
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9.5)
