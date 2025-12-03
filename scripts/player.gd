@@ -135,5 +135,7 @@ func _on_melee_body_exited(body: Node2D) -> void:
 		current_enemy = null
 
 func _process(_delta: float) -> void:
-	if current_enemy != null and is_attacking and in_range and attack_timer < 0:
+	if current_enemy != null and is_attacking and in_range:
+		if attack_timer > 0:
+			#current_enemy.queue_free()
 			current_enemy.change_health(-2)
